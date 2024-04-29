@@ -1,29 +1,27 @@
 #pragma once
 
-#include <iostream>
-
 #include "Pair.h"
 
-using namespace std;
-
 template <typename T>
-struct Node 
+struct Node //Шаблонная структура элемента списка
 {
-	Node<T>* next = nullptr;
-	Node<T>* prev = nullptr;
-	T Data;
+	Node<T>* next = nullptr; //Указатель на следующий элемент
+	Node<T>* prev = nullptr; //На предыдущий
+	T Data; //Данные элемента списка
 };
 
 template <typename T>
-class List
+class List //Шаблонный клас списка
 {
 public:
 
+    //Конструктор без параметров
     List() { head = nullptr, tail = nullptr, Lenght = 0; }
 
+    //Диструктор
     ~List() { Clear(); }
 
-    void Push_Back(T element)
+    void Push_Back(T element) //Метод добавления элемента в конец списка
     {
         Node<T>* new_node = new Node<T>;
         new_node->Data = element;
@@ -43,7 +41,7 @@ public:
         Lenght++;
     }
 
-    void Push_Front(T element)
+    void Push_Front(T element) //Добавление в начало списка
     {
         Node<T>* new_node = new Node<T>;
         new_node->Data = element;
@@ -63,7 +61,7 @@ public:
         Lenght++;
     }
 
-    void Pop_Back() 
+    void Pop_Back() //Удаление из конца списка 
     {
         if (head == nullptr)
         {
@@ -92,7 +90,7 @@ public:
         Lenght--;
     }
 
-    void Pop_Front()
+    void Pop_Front() //Удаление из начала списка
     {
         if (head == nullptr)
         {
@@ -120,7 +118,7 @@ public:
         Lenght--;
     }
 
-    T& operator[](int index)
+    T& operator[](int index) //Прямой доступ по индексу
     {
         if (index >= Lenght|| index < 0)
         {
@@ -137,7 +135,7 @@ public:
         return current->Data;
     }
 
-    List& operator=(List& anotherList)
+    List& operator=(List& anotherList) //Оператор присвоения
     {
         if (this != &anotherList)
         {
@@ -155,9 +153,9 @@ public:
         return *this;
     }
 
-    int operator()() { return Lenght; }
+    int operator()() { return Lenght; } //Оператор получения размера списка
 
-    List& operator*=(List& anotherList)
+    List& operator*=(List& anotherList) //Оператор умножения элементов двух списков
     {
         int SmallerLenght = (anotherList.Lenght > Lenght) ? Lenght : anotherList.Lenght;
 
@@ -167,7 +165,7 @@ public:
         return *this;
     }
 
-    void Clear()
+    void Clear() //Метод очистки списка
     {
         while (head != nullptr)
         {
@@ -181,6 +179,7 @@ public:
         Lenght = 0;
     }
 
+    //Функции ввода - вывода через потоки
     template <typename T>
     friend istream& operator>>(istream& stream, List<T>& list);
 
@@ -189,13 +188,13 @@ public:
 
 private:
 
-	Node<T>* head;
-	Node<T>* tail;
-	int Lenght;
+	Node<T>* head; //Голова списка
+	Node<T>* tail; //Хвост списка
+	int Lenght; //Длинна списка
 };
 
 template <typename T>
-istream& operator>>(istream& stream, List<T>& list)
+istream& operator>>(istream& stream, List<T>& list) //Функция потокового ввода
 {
     list.Clear();
 
@@ -214,7 +213,7 @@ istream& operator>>(istream& stream, List<T>& list)
 }
 
 template <typename T>
-ostream& operator<<(ostream& stream, List<T>& list)
+ostream& operator<<(ostream& stream, List<T>& list) //Функция потокового вывода
 {
     if (list.Lenght == 0)
         stream << "Пустой список!";
